@@ -1,37 +1,23 @@
 package model;
 import java.util.*;
+import java.time.LocalDate;
 
-public class Member {
-    public enum MemberType {
-        STUDENT(5), FACULTY(10);
-
-        private final int maxBooks;
-        // enum constructors are by default private
-        MemberType(int maxBooks) {
-            this.maxBooks = maxBooks;
-        }
-
-        public int getMaxBooksAllowed() {
-            return maxBooks;
-        }
-    }
-
-    private String memberId;
+public abstract class Member {
+    private final String memberId;
     private String name;
     private String email;
-    private MemberType memberType;
+    private final BorrowingPolicy policy;
     private List<Book> checkedOutBooks;
     private double finesDue;
-    private Date registrationDate;
+    private LocalDate registrationDate;
 
-    public Member(String memberId, String name, String email, MemberType memberType) {
-        this.memberId = memberId;
-        this.name = name;
-        this.email = email;
-        this.memberType = memberType;
+    public Member(String memberId, String name, String email, BorrowingPolicy policy) {
+        this.memberId = Objects.requireNonNull(memberId, "Member ID cannot be null");
+        this.name = Objects.requireNonNull(name, "Name cannot be null");
+        this.email = Objects.requireNonNull(email, "Email cannot be null");
         this.checkedOutBooks = new ArrayList<>();
         this.finesDue = 0.0;
-        this.registrationDate = new Date(); // default to now
+        this.registrationDate = LocalDate.now();
     }
 
     public String getMemberId() {
@@ -46,15 +32,15 @@ public class Member {
         return email;
     }
 
-    public MemberType getMemberType() {
-        return memberType;
-    }
-
     public int getMaxBooksAllowed() {
-        return memberType.getMaxBooksAllowed();
+        return policy.getMaxBooksAllowed();
     }
 
-    public Date getRegistrationDate() {
+    public boolean canRenew(Book book) {
+        return policy.canRenew(book);
+    }
+
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
@@ -64,7 +50,7 @@ public class Member {
                 "memberId='" + memberId + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", memberType=" + memberType +
+                ", policy=" + policy +
                 ", registrationDate=" + registrationDate +
                 '}';
     }
