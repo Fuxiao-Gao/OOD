@@ -1,4 +1,6 @@
 package model;
+import model.Book;
+import model.Member;
 
 public class NotificationService {
     // send notification when a reserved book becomes available

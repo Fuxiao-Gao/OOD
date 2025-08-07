@@ -1,6 +1,7 @@
 package model;
-import java.util.*;
 import java.time.LocalDate;
+import java.util.*;
+import policy.BorrowingPolicy;
 
 public abstract class Member {
     private final String memberId;
@@ -11,10 +12,11 @@ public abstract class Member {
     private double finesDue;
     private LocalDate registrationDate;
 
-    public Member(String memberId, String name, String email, BorrowingPolicy policy) {
+    protected Member(String memberId, String name, String email, BorrowingPolicy policy) {
         this.memberId = Objects.requireNonNull(memberId, "Member ID cannot be null");
         this.name = Objects.requireNonNull(name, "Name cannot be null");
         this.email = Objects.requireNonNull(email, "Email cannot be null");
+        this.policy = Objects.requireNonNull(policy, "Policy cannot be null");
         this.checkedOutBooks = new ArrayList<>();
         this.finesDue = 0.0;
         this.registrationDate = LocalDate.now();
@@ -36,10 +38,6 @@ public abstract class Member {
         return policy.getMaxBooksAllowed();
     }
 
-    public boolean canRenew(Book book) {
-        return policy.canRenew(book);
-    }
-
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
@@ -50,7 +48,6 @@ public abstract class Member {
                 "memberId='" + memberId + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", policy=" + policy +
                 ", registrationDate=" + registrationDate +
                 '}';
     }

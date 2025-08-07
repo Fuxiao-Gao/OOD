@@ -1,10 +1,9 @@
 package policy;
 import java.time.Period;
-import model.Book;
 
 public interface BorrowingPolicy {
     int getMaxBooksAllowed();
-    boolean canRenew(Book book);
+    int getMaxReservationsAllowed();
     Period loanPeriod();
     double calculateFines(int overdueDays);
 }

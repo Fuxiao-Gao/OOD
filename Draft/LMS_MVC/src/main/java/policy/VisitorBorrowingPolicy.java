@@ -1,14 +1,13 @@
 package policy;
 import java.time.Period;
-import model.Book;
 
-public class VisitorBorrowingPolicy {
+public class VisitorBorrowingPolicy implements BorrowingPolicy {
     public int getMaxBooksAllowed() {
         return 1; 
     }
 
-    public boolean canRenew(Book book) {
-        return false; 
+    public int getMaxReservationsAllowed() {
+        return 1; 
     }
 
     public Period loanPeriod() {

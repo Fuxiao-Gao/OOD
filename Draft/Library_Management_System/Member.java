@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+
 public class Member {
     private static int idCounter;
     private String memberId;

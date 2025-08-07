@@ -1,0 +1,113 @@
+<<Model>>
++----------------------+
+|        Book          |
++----------------------+
+| - isbn: String       |
+| - title: String      |
+| - author: String     |
+| - subject: String    |
+| - publicationDate: Date |
+| - barcode: String    |
+| - status: BookStatus |
+| - type: BookStype    |
++----------------------+
+| +isAvailable(): bool |
++----------------------+
+
+<<Enum>>
++----------------------+
+|     BookStatus       |
++----------------------+
+| AVAILABLE            |
+| RESERVED             |
+| CHECKED_OUT          |
+| OVERDUE              |
++----------------------+
+
+<<Model>>
++--------------------------+
+|       Member             |
++--------------------------+
+| - memberId: String       |
+| - name: String           |
+| - email: String          |
+| - checkedOutBooks: List<Book> |
+| + MAX_BOOKS_ALLOWED: int   |
+| - finesDue: double       |
++--------------------------+
+| +canCheckout(): bool     |
++--------------------------+
+
+<<Model>>
++----------------------------+
+|        Reservation         |
++----------------------------+
+| - book: Book               |
+| - member: Member           |
+| - reservationDate: Date    |
+| - status: ReservationStatus|
++----------------------------+
+
+<<Enum>>
++---------------------------+
+|   ReservationStatus       |
++---------------------------+
+| WAITING                   |
+| NOTIFIED                  |
+| COLLECTED                 |
++---------------------------+
+
+<<Model>>
++-------------------------+
+|         Checkout        |
++-------------------------+
+| - book: Book            |
+| - member: Member        |
+| - checkoutDate: Date    |
+| - dueDate: Date         |
+| - returnDate: Date      |
++-------------------------+
+| +isOverdue(): bool      |
+| +calculateFine(): double|
++-------------------------+
+
+<<Model>>
++----------------------------+
+|      NotificationService   |
++----------------------------+
+| +sendAvailableNotice(book, member) |
+| +sendOverdueNotice(book, member)   |
++----------------------------+
+
+<<Model>>
++-------------------------+
+|         Catalog         |
++-------------------------+
+| +searchByTitle(title)   |
+| +searchByAuthor(author) |
+| +searchBySubject(subject)|
+| +searchByPubDate(date)  |
++-------------------------+
+
+<<Controller>>
++-------------------------+
+|    LibraryController    |
++-------------------------+
+| +reserveBook(book, member)   |
+| +checkoutBook(bookBarcode, memberBarcode) |
+| +returnBook(book)       |
+| +notifyOverdueBooks()   |
+| +notifyReservedBooks()  |
+| +getCheckedOutBooks(member) |
+| +lookupBookHolder(book) |
++-------------------------+
+
+<<View>>
++-------------------------+
+|     LibraryView         |
++-------------------------+
+| +displaySearchResults() |
+| +displayBookInfo()      |
+| +displayMemberInfo()    |
+| +showNotification()     |
++-------------------------+
